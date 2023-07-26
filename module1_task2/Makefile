@@ -1,12 +1,15 @@
-build:
-	hugo
+# Build the website using Go-Hugo
+build: ## Build the website using Go-Hugo
+    hugo
 
-clean:
-	rm -rf dist/*
+# Serve the website locally for testing and development
+serve: ## Serve the website locally for testing and development
+    hugo server
 
-post:
-	hugo new posts/$(POST_NAME).md
-	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
-	
-help: ## Shows available targets and descriptions
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+# Clean up the generated files
+clean: ## Clean up the generated files
+    rm -rf public
+
+# Show the list of targets and their usage
+help: ## Show the list of targets and their usage
+    @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
