@@ -22,6 +22,7 @@ stop:
 clean:
 	@echo "Cleaning up..."
 	@rm -f $(BINARY_NAME) $(LOG_FILE)
+	@pkill awesome-api
 	@rm -rf ./dist/*
 test:
 	@echo "Testing the application..."
