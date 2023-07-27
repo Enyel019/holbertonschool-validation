@@ -9,10 +9,6 @@ build:
 	@go build -o $(BINARY_NAME) .
 	@hugo
 
-post: ## Creates a new post using env vars POST_TITLE and POST_NAME
-	hugo new posts/$(POST_NAME).md
-	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
-
 clean:
 	@echo "Cleaning up..."
 	@rm -f $(BINARY_NAME) $(LOG_FILE)
