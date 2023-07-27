@@ -14,4 +14,4 @@
 * post: Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME.
 * help: prints out the list of commands in makefile and their usage.
 * Makefile: is a configuration file used by the make command to automate the process of building and running a project.
-* make: is a command line tool used to read and execute the rules defined in a Makefile
+* make help: provides a quick description of the other targets defined in the Makefile, which can be useful for developers who need a quick reference on how to use the Makefile.
