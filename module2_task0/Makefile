@@ -31,6 +31,7 @@ stop:
 	@echo "Stopping the application..."
 	@kill `pgrep $(BINARY_NAME)`
 
-test: ## You want to test it to ensure that it behaves as expected.
-	curl http://localhost:9999
-	curl http://localhost:9999/health
+test:
+	@echo "Testing the application..."
+	@curl http://localhost:9999 
+	@curl http://localhost:9999/health 
