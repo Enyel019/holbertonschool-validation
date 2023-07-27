@@ -19,10 +19,6 @@ clean:
 	@pkill awesome-api
 	@rm -rf ./dist/*
 
-.SILENT:
-help: ## Displays helpful information for Makefile commands
-	cat Makefile | grep '##' | tr -d '##'
-
 run:
 	@echo "Running the application in the background..."
 	@./$(BINARY_NAME) > $(LOG_FILE) 2>&1 &
@@ -35,3 +31,12 @@ test:
 	@echo "Testing the application..."
 	@curl http://localhost:9999 
 	@curl http://localhost:9999/health 
+
+help:
+	@echo "Available targets:"
+	@echo "  all:         compile and run the application (default)"
+	@echo "  build:       compile the source code to a binary"
+	@echo "  run:         run the application"
+	@echo "  stop:        stop the running application"
+	@echo "  clean:       clean up the binary and log file"
+	@echo "  test:        test the application"	
