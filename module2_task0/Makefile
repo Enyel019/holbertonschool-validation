@@ -8,8 +8,7 @@ build:
 	@echo "Building the binary..."
 	@go build -o $(BINARY_NAME) .
 	@hugo
-post:
-    
+post:    
 	@hugo new posts/$(POST_NAME).md
 	@sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 run:
@@ -23,7 +22,7 @@ clean:
 	@echo "Cleaning up..."
 	@rm -f $(BINARY_NAME) $(LOG_FILE)
 	@pkill awesome-api
-	
+	@rm -rf ./dist/*
 test:
 	@echo "Testing the application..."
 	@curl http://localhost:9999 
