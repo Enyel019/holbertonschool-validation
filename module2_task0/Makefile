@@ -1,4 +1,4 @@
-## makefile
+# Makefile for Golang HTTP web server project
 
 BINARY_NAME := awesome-api
 LOG_FILE := awesome-api.log
