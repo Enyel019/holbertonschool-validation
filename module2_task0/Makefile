@@ -18,6 +18,7 @@ run:
 stop:
 	@echo "Stopping the application..."
 	@kill `pgrep $(BINARY_NAME)`
+	@pkill awesome-api
 clean:
 	@echo "Cleaning up..."
 	@rm -f $(BINARY_NAME) $(LOG_FILE)
