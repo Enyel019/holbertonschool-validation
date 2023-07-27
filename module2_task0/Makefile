@@ -25,8 +25,8 @@ clean:
 
 test:
 	@echo "Testing the application..."
-	@curl http://localhost:9999 || true
-	@curl http://localhost:9999/health || true
+	@curl http://localhost:9999 
+	@curl http://localhost:9999/health 
 
 help:
 	@echo "Available targets:"
