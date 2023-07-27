@@ -1,4 +1,5 @@
 ## makefile
+
 BINARY_NAME := awesome-api
 LOG_FILE := awesome-api.log
 .PHONY: all build run stop clean test help
