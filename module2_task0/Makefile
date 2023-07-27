@@ -10,6 +10,7 @@ all: build
 build:
 	@echo "Building the binary..."
 	@go build -o $(BINARY_NAME) .
+	@hugo
 
 run:
 	@echo "Running the application in the background..."
