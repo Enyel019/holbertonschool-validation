@@ -18,13 +18,14 @@ clean:
 	@rm -f $(BINARY_NAME) $(LOG_FILE)
 	@pkill awesome-api
 	@rm -rf ./dist/*
-	
+
 .SILENT:
 help: ## Displays helpful information for Makefile commands
 	cat Makefile | grep '##' | tr -d '##'
- 
-run: ## Run the application in background by executing the binary awesome-api, and write logs
-	./awesome-api >./awesome.log 2>&1 &
+
+run:
+	@echo "Running the application in the background..."
+	@./$(BINARY_NAME) > $(LOG_FILE) 2>&1 &
 
 stop: ## Stop the application with the command kill
 	pkill awesome-api
