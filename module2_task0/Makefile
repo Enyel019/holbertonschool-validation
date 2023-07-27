@@ -13,11 +13,12 @@ post: ## Creates a new post using env vars POST_TITLE and POST_NAME
 	hugo new posts/$(POST_NAME).md
 	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
-clean: ##  Delete the binary awesome-api and the log file awesome-api.log
-	pkill awesome-api
-	rm -rf ./dist/*
-	rm  -f ./awesome-api ./awesome.log
-
+clean:
+	@echo "Cleaning up..."
+	@rm -f $(BINARY_NAME) $(LOG_FILE)
+	@pkill awesome-api
+	@rm -rf ./dist/*
+	
 .SILENT:
 help: ## Displays helpful information for Makefile commands
 	cat Makefile | grep '##' | tr -d '##'
