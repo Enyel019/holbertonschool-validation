@@ -1,7 +1,8 @@
 ## Requirements
 
-- Go 1.16 or later
-- Gorilla Mux library (install with go get github.com/gorilla/mux)
+- Install Hugo (the extended edition)
+- Install Git
+- install go
 
 ## Available Targets
 
