@@ -40,7 +40,7 @@ test: ## test the application"
 lint: ## run static analysis on the source code"
 	@echo "Running lint..."
 	@golangci-lint run
-	
+
 help: ## Prints out the list of targets and their usage
 	@echo "Available targets:"
 	@echo "  all:       compile and run the application (default)"
@@ -51,3 +51,12 @@ help: ## Prints out the list of targets and their usage
 	@echo "  test:      test the application"
 	@echo "  lint:      run static analysis on the source code"
 
+.PHONY: build
+build: lint ## alsdjflksajdf a;ljsdflsadhf hf hdsa;lahdsf sdf;lkahds fhdsaf
+	go get github.com/gorilla/mux
+	go build -o $(BINARY_NAME)
+
+
+.PHONY: lint
+lint: ## LINT LINT LINT YEAHHHH BABYYYY
+	golangci-lint run
