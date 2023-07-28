@@ -16,3 +16,4 @@ This is a sample project to create an HTTP web server in Golang. It provides tar
 - `clean`: Clean up binary files and log files.
 - `test`: Perform basic tests on the application.
 - `post`: Create a new post for the web server.
+- `lint`:      run static analysis on the source code.
