@@ -1,7 +1,7 @@
 ## Requirements
 
-- Golang must be installed on the system.
-- The 'hugo' command-line tool must be installed to generate web server content.
+- Go 1.16 or later
+- Gorilla Mux library (install with go get github.com/gorilla/mux)
 
 ## Available Targets
 
