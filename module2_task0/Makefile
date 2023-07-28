@@ -27,7 +27,7 @@ test: ## test the application
 	@echo "Testing the application..."
 	@curl http://localhost:9999 
 	@curl http://localhost:9999/health 
-help:
+help: ## Prints out the list of targets and their usage
 	@echo "Available targets:"
 	@echo "  all:         compile and run the application (default)"
 	@echo "  build:       compile the source code to a binary"
