@@ -1,17 +1,26 @@
-## Prerequisites
+# Golang HTTP Web Server Project
 
-* Go-Hugo, GNUMake installed
-* Install Git
-* install go
+This is a sample project to create an HTTP web server in Golang. It provides targets (make targets) for building, running, stopping, cleaning, and testing the application. There is also a target for creating a new post for the web server.
 
-## Lifecycle
+## Requirements
 
-* build: Generate the website from the markdown and configuration files in the directory dist/. and compile the source code of the application to a binary named awesome-api.
-* run: Run the application in background by executing the binary awesome-api, and write logs into a file named awesome.log.
-* stop: Stop the application.
-* clean: Cleanup the content of the directory dist and delete the binary awesome-api and the log file awesome-api.log.
-* test: test to ensure application behaves as expected.
-* post: Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME.
-* help: prints out the list of commands in makefile and their usage.
-* Makefile: is a configuration file used by the make command to automate the process of building and running a project.
-* make help: provides a quick description of the other targets defined in the Makefile, which can be useful for developers who need a quick reference on how to use the Makefile.
+- Golang must be installed on the system.
+- The 'hugo' command-line tool must be installed to generate web server content.
+
+## Available Targets
+
+- `all`: Build and run the application (default).
+- `build`: Compile the source code into an executable binary.
+- `run`: Run the application in the background.
+- `stop`: Stop the running application.
+- `clean`: Clean up binary files and log files.
+- `test`: Perform basic tests on the application.
+- `post`: Create a new post for the web server.
+
+## Instructions
+
+1. Clone this repository on your local machine.
+
+```bash
+git clone <repository-url>
+cd <repository-name>
