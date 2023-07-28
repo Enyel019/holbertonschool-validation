@@ -3,8 +3,7 @@
 BINARY_NAME := awesome-api
 LOG_FILE := awesome-api.log
 .PHONY: all build run stop clean test help
-all: ## compile and run the application (default)
-    build
+all: build ## compile and run the application (default)
 build: ## compile the source code to a binary
 	@echo "Building the binary..."
 	@go build -o $(BINARY_NAME) .
