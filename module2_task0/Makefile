@@ -5,14 +5,14 @@ LOG_FILE := awesome-api.log
 
 .PHONY: all build run stop clean test help lint
 
+.PHONY: build
+build: lint ## alsdjflksajdf a;ljsdflsadhf hf hdsa;lahdsf sdf;lkahds fhdsaf
+	go get github.com/gorilla/mux
+	go build -o $(BINARY_NAME)
 
-all: ## compile and run the application (default)"
-    lint build
-
-build: ## compile the source code to a binary"
-	@echo "Building the binary..."
-	@go build -o $(BINARY_NAME) .
-	@hugo
+.PHONY: lint
+lint: ## LINT LINT LINT YEAHHHH BABYYYY
+	golangci-lint run
 
 post: ## new post   
 	@hugo new posts/$(POST_NAME).md
@@ -51,12 +51,3 @@ help: ## Prints out the list of targets and their usage
 	@echo "  test:      test the application"
 	@echo "  lint:      run static analysis on the source code"
 
-.PHONY: build
-build: lint ## alsdjflksajdf a;ljsdflsadhf hf hdsa;lahdsf sdf;lkahds fhdsaf
-	go get github.com/gorilla/mux
-	go build -o $(BINARY_NAME)
-
-
-.PHONY: lint
-lint: ## LINT LINT LINT YEAHHHH BABYYYY
-	golangci-lint run
