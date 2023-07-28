@@ -1,43 +1,34 @@
-# Makefile
+build: ## Compile the source code of the application to a binary name file using tje command go build
+	hugo
+	make lint
+	go build 
 
-# Variables
-BINARY_NAME = awesome-api
-PKG = github.com/yourusername/awesome-api
-COMMIT_HASH = $(shell git rev-parse --short HEAD)
-BUILD_TIME = $(shell date -u '+%Y-%m-%d_%H:%M:%S')
-GOFLAGS =
+post: ## Creates a new post using env vars POST_TITLE and POST_NAME
+	hugo new posts/$(POST_NAME).md
+	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
-# Targets
-build:
-	go build -o $(BINARY_NAME) -ldflags "-X main.commitHash=$(COMMIT_HASH) -X main.buildTime=$(BUILD_TIME)" $(PKG)
+clean: ##  Delete the binary awesome-api and the log file awesome-api.log
+	-make stop
+	pkill awesome-api
+	rm -rf ./dist/*
+	rm ./awesome-api ./awesome.log
 
-run:
-	go run $(GOFLAGS) main.go
+.SILENT:
+help: ## Displays helpful information for Makefile commands
+	cat Makefile | grep '##' | tr -d '##'
+ 
+run: ## Run the application in background by executing the binary awesome-api, and write logs
+	./awesome-api >./awesome.log 2>&1 &
 
-stop:
-	# Implement stop logic here (if needed)
-	echo "Stop is not implemented."
+stop: ## Stop the application with the command kill
+	pkill awesome-api
 
-clean:
-	rm -f $(BINARY_NAME)
-	rm -f coverage-units.out
+test: ## You want to test it to ensure that it behaves as expected.
+	curl http://localhost:9999
+	curl http://localhost:9999/health
 
-lint:
-	golint ./...
+lint: ## the linter reads the source code and detect common semantic errors.
+	golangci-lint run ./main.go
 
-help:
-	@echo "Available targets:"
-	@echo "  build       Build the binary"
-	@echo "  run         Run the application"
-	@echo "  stop        Stop the application"
-	@echo "  clean       Clean up artifacts"
-	@echo "  lint        Run golint"
-	@echo "  test        Run unit tests"
-	@echo "  unit-tests  Run unit tests with code coverage"
-
-test:
-	go test -v ./...
-
-unit-tests:
+unit-tests: ##execute (successfully) the Golang unit tests
 	go test -v -short -coverprofile=coverage-units.out
-	go tool cover -func=coverage-units.out | grep HelloHandler | awk '{print $3}'
