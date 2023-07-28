@@ -1,13 +1,13 @@
 package main
 
 import (
-  "fmt"
-  "io"
-  "log"
-  "net/http"
-  "os"
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"os"
 
-  "github.com/gorilla/mux"
+	"github.com/gorilla/mux"
 )
 
 func main() {
