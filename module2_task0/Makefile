@@ -5,9 +5,6 @@ LOG_FILE := awesome-api.log
 
 .PHONY: all build run stop clean test help lint
 
-lint: ## run static analysis on the source code"
-	@echo "Running lint..."
-	@golangci-lint run
 
 all: ## compile and run the application (default)"
     lint build
@@ -40,6 +37,10 @@ test: ## test the application"
 	@curl http://localhost:9999 
 	@curl http://localhost:9999/health 
 
+lint: ## run static analysis on the source code"
+	@echo "Running lint..."
+	@golangci-lint run
+	
 help: ## Prints out the list of targets and their usage
 	@echo "Available targets:"
 	@echo "  all:       compile and run the application (default)"
@@ -49,3 +50,4 @@ help: ## Prints out the list of targets and their usage
 	@echo "  clean:     clean up the binary and log file"
 	@echo "  test:      test the application"
 	@echo "  lint:      run static analysis on the source code"
+
