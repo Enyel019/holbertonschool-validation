@@ -1,16 +1,17 @@
-## Requirements
+## Prerequisites
 
-- Install Hugo (the extended edition)
-- Install Git
-- install go
+- Go 1.16 or later
+- Gorilla Mux library (install with `go get github.com/gorilla/mux`)
 
-## Available Targets
+## Lifecycle
 
-- `make all`: Build and run the application (default).
-- `make build`: Compile the source code into an executable binary.
-- `make run`: Run the application in the background.
-- `make stop`: Stop the running application.
-- `make clean`: Clean up binary files and log files.
-- `make test`: Perform basic tests on the application.
-- `make post`: Create a new post for the web server.
-- `make lint`: Run static analysis on the source code.
+This project can be built, run, tested, and cleaned using the following commands:
+
+- `make build`: compile the source code of the application to a binary named `awesome-api`
+- `make run`: run the application in the background, and write logs into a file named `awesome-api.log`
+- `make stop`: stop the application
+- `make clean`: stop the application, delete the binary `awesome-api` and the log file `awesome-api.log`
+- `make test`: test the application by sending HTTP requests to `localhost:9999`
+- `make lint`: Lint the main
+
+To see the full list of available commands, you can run the `make help` command.
