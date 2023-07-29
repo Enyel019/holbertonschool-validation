@@ -13,9 +13,10 @@ help: ## Show the list of targets and their usage
 
 check:  ## Lints and check for dead links on markdowns using markdownlint-cli and markdown-link-check
 	@echo "Running Markdown Lint..."
-	@markdownlint ./content/posts/*.md
+	@markdownlint --config .markdownlint.json ./content/posts/*.md || (echo "Markdown Lint failed"; exit 1)
 	@echo "Checking for Dead Links..."
-	@markdown-link-check ./content/posts/*.md
+	@markdown-link-check --quiet ./content/posts/*.md || (echo "Markdown Link Check failed"; exit 1)
+
 
 build-and-check: ## Build the website and check for dead links and markdown issues
 	@make check
