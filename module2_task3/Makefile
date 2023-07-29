@@ -22,7 +22,7 @@ run: ## Run the application in background by executing the binary awesome-api, a
 	./awesome-api >./awesome.log 2>&1 &
 
 stop: ## Stop the application with the command kill
-	pkill awesome-api
+	-pkill awesome-api
 
 test: ## You want to test it to ensure that it behaves as expected.
 	make unit-tests
