@@ -12,8 +12,8 @@ help: ## Show the list of targets and their usage
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
 check:  ## Lints and check for dead links on markdowns using markdownlint-cli and markdown-link-check
-	@markdownlint ./content/posts/*.md
-	@markdown-link-check ./content/posts/*.md
+    markdownlint-cli -c .markdownlint.yaml .
+	markdown-link-check .	
 
 build-and-check: ## Build the website and check for dead links and markdown issues
 	@make check
