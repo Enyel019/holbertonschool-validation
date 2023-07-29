@@ -1,4 +1,4 @@
-build: ## Build the website using Go-Hugo
+build: check ## Build the website using Go-Hugo
 	hugo
 
 clean: ## Clean up the generated files
