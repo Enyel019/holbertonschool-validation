@@ -3,39 +3,50 @@ POST_NAME ?= new-post
 POST_TITLE ?= "New Post Title"
 
 # Targets
-build: check ## Build the website using Go-Hugo only if check passes
-	@hugo
+build: check hugo-build go-build ## Build the website using Go-Hugo and Golang
+	@true
 
-check: ## Lints and check for dead links on markdowns using markdownlint-cli and markdown-link-check
+check: ## Lints and checks for dead links on markdowns using markdownlint-cli and markdown-link-check
 	@markdownlint ./content/posts/*.md
 	@markdown-link-check ./content/posts/*.md
 
-clean: ## Clean up the generated files
+clean: stop ## Clean up the generated files and stop the running service
 	@rm -rf dist/*
-	@rm -rf dist/*
+	@rm -f awesome-api
 
-post: ## new post
+post: ## Create a new post using Hugo
 	@hugo new posts/$(POST_NAME).md
 	@sed -i 's/title: .*/title: $(POST_TITLE)/' content/posts/$(POST_NAME).md
 
-help: ## Show the list of targets and their usage
+help: ## Show the list of targets with their usage
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
-run: build
+run: build ## Build the website using Go-Hugo and Golang, then start the server
 	@nohup hugo server --bind 0.0.0.0 --baseUrl=http://localhost:9999 &
 
 stop: ## Stop the application with the command kill
 	@pkill -f "hugo server"
 
-test: lint validate ## You want to test it to ensure that it behaves as expected.
-	make unit-tests 
-	make integration-tests
+test: lint validate unit-tests integration-tests ## Execute all testing targets
 
-
-lint:  ## the linter reads the source code and detect common semantic errors.
+lint: ## Execute all lint steps
 	@make check
 
 validate: build ## Validates dist/index.html using W3C Hbtn validator
 	@-git clone https://github.com/holbertonschool/W3C-Validator.git
 	@-./W3C-Validator/w3c_validator.py ./dist/index.html
 	@-rm -rf ./W3C-Validator
+
+hugo-build:
+	@hugo
+
+go-build:
+	@go build -o awesome-api
+
+unit-tests: ## Execute unit tests for the Golang API
+	@go test -v ./...
+
+integration-tests: ## Execute integration tests for the Golang API
+	@# Run integration tests here (assuming you have integration test files)
+
+.PHONY: build check clean post help run stop test lint validate hugo-build go-build unit-tests integration-tests
