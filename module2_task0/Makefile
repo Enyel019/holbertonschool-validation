@@ -1,37 +1,37 @@
-# Makefile
+# Makefile for Golang HTTP web server project
 
 BINARY_NAME := awesome-api
-
-.PHONY: build run stop clean test help
-
-build: ## Compile the source code of the application to a binary named file using the command go build
-	go build -o $(BINARY_NAME) .
-
-run: ## Run the application in the background by executing the binary awesome-api and write logs
-	./$(BINARY_NAME) >./$(BINARY_NAME).log 2>&1 &
-
-stop: ## Stop the application with the command kill
-	-pkill $(BINARY_NAME)
-
-clean: ## Delete the binary awesome-api and the log file awesome-api.log
-	make stop
-	rm -f $(BINARY_NAME)
-	rm -f $(BINARY_NAME).log
-
-test: ## Test the application to ensure that it behaves as expected
-	make run
-	sleep 1
-	@echo "Testing /health endpoint:"
-	curl http://localhost:9999/health || true
-	@echo "\nTesting / endpoint:"
-	curl http://localhost:9999/ || true
-	make stop
-
-help: ## Displays helpful information for Makefile commands
+LOG_FILE := awesome-api.log
+.PHONY: all build run stop clean test help
+all: build ## compile and run the application (default)
+build: ## compile the source code to a binary
+	@echo "Building the binary..."
+	@go build -o $(BINARY_NAME) .
+	@hugo
+post: ## new post
+	@hugo new posts/$(POST_NAME).md
+	@sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+run: ## run the application
+	@echo "Running the application in the background..."
+	@./$(BINARY_NAME) > $(LOG_FILE) 2>&1 &
+stop: ## stop the running application
+	@echo "Stopping the application..."
+	@kill `pgrep $(BINARY_NAME)`
+	
+clean: ## clean up the binary and log file
+	@echo "Cleaning up..."
+	@rm -f $(BINARY_NAME) $(LOG_FILE)
+	@pkill awesome-api
+	@rm -rf ./dist/*
+test: ## test the application
+	@echo "Testing the application..."
+	@curl http://localhost:9999 
+	@curl http://localhost:9999/health 
+help: ## Prints out the list of targets and their usage
 	@echo "Available targets:"
-	@echo "  build    Compile the source code of the application to a binary named file using the command go build"
-	@echo "  run      Run the application in the background by executing the binary awesome-api and write logs"
-	@echo "  stop     Stop the application with the command kill"
-	@echo "  clean    Delete the binary awesome-api and the log file awesome-api.log"
-	@echo "  test     Test the application to ensure that it behaves as expected"
-	@echo "  help     Displays helpful information for Makefile commands"
+	@echo "  all:         compile and run the application (default)"
+	@echo "  build:       compile the source code to a binary"
+	@echo "  run:         run the application"
+	@echo "  stop:        stop the running application"
+	@echo "  clean:       clean up the binary and log file"
+	@echo "  test:        test the application"
