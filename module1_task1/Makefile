@@ -1,21 +1,9 @@
-# Variables
-POST_NAME ?= new-post
-POST_TITLE ?= "New Post Title"
-
-# Directories
-DIST_DIR := ./dist
-CONTENT_DIR := ./content/posts
-
-# Targets
-build: $(DIST_DIR)/index.html
+build:
+	hugo
 
 clean:
-	@rm -rf $(DIST_DIR)/*
+	rm -rf dist/*
 
 post:
-	@hugo new $(CONTENT_DIR)/$(POST_NAME).md
-	@sed -i 's/title: .*/title: $(POST_TITLE)/' $(CONTENT_DIR)/$(POST_NAME).md
-
-# Rules
-$(DIST_DIR)/index.html: $(CONTENT_DIR)/*.* ./config.toml
-	@hugo
+	hugo new posts/$(POST_NAME).md
+	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
