@@ -1,10 +1,10 @@
-build: check ## Build the website using Go-Hugo only if check passes
+build: check 
 	@hugo
 
 
-clean: ## Clean up the generated files
+clean: 
 	@rm -rf dist/*
 
-post: ## new post
+post: 
 	@hugo new posts/$(POST_NAME).md
 	@sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
