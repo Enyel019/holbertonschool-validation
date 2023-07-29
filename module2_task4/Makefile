@@ -16,16 +16,14 @@ clean: ## Clean up the generated files
 help: ## Show the list of targets and their usage
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
-check: ## Lints and checks for dead links in markdowns using markdownlint-cli and markdown-link-check
+check:  ## Lints and check for dead links on markdowns using markdownlint-cli and markdown-link-check
 	@echo "Running Markdown Lint..."
-	@markdownlint $(CONTENT_DIR)/*.md
+	@markdownlint ./content/posts/*.md
 	@echo "Checking for Dead Links..."
-	@markdown-link-check $(CONTENT_DIR)/*.md || exit 1
+	@markdown-link-check ./content/posts/*.md
 
-validate: ## Validates dist/index.html using Holberton’s W3C Validator
+validate: ## Validates dist/index.html using W3C Hbtn validator
 	@make build
-	@if [ -d "$(W3C_VALIDATOR_DIR)" ]; then \
-		$(W3C_VALIDATOR_DIR)/w3c_validator.py $(DIST_DIR)/index.html || true; \
-	else \
-		echo "Holberton’s W3C Validator not found. Please clone it to $(W3C_VALIDATOR_DIR)"; \
-	fi
+	@-git clone https://github.com/holbertonschool/W3C-Validator.git
+	@-./W3C-Validator/w3c_validator.py ./dist/index.html
+	@-rm -rf ./W3C-Validator
