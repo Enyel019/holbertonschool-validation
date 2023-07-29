@@ -33,6 +33,7 @@ func setupRouter() *mux.Router {
 
     // Serve static content from the ./dist/ directory
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./dist/")))
+	
 	return r
 }
 
