@@ -1,5 +1,6 @@
-build: check ## Build the website using Go-Hugo
-	@hugo --destination ./dist
+build: ## Build the website using Go-Hugo
+	@make check || (echo "Build failed due to check errors"; exit 1)
+	@hugo
 
 clean: ## Clean up the generated files
 	@rm -rf dist/*
