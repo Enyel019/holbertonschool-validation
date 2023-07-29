@@ -1,5 +1,5 @@
 build: ## Build the website using Go-Hugo
-	@hugo
+	@hugo --destination ./dist
 
 clean: ## Clean up the generated files
 	@rm -rf dist/*
