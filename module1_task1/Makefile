@@ -1,6 +1,6 @@
 # Targets
 build:
-	hugo
+	hugo --destination ./dist
 
 clean:
 	rm -rf dist/*
