@@ -1,10 +1,9 @@
-build: check 
-	@hugo
+build:
+	hugo
 
+clean:
+	rm -rf dist/*
 
-clean: 
-	@rm -rf dist/*
-
-post: 
-	@hugo new posts/$(POST_NAME).md
-	@sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+post:
+	hugo new posts/$(POST_NAME).md
+	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
