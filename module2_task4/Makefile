@@ -1,5 +1,6 @@
-build: ## Build the website using Go-Hugo
-	@hugo --destination ./dist
+build: check ## Build the website using Go-Hugo only if check passes
+	@hugo
+
 
 clean: ## Clean up the generated files
 	@rm -rf dist/*
