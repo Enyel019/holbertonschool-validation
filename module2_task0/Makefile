@@ -2,7 +2,8 @@
 
 BINARY_NAME := awesome-api
 LOG_FILE := awesome-api.log
-.PHONY:
+.PHONY: all build run stop clean test help
+all: build ## compile and run the application (default)
 build: ## compile the source code to a binary
 	@echo "Building the binary..."
 	@go build -o $(BINARY_NAME) .
@@ -26,11 +27,6 @@ test: ## test the application
 	@echo "Testing the application..."
 	@curl http://localhost:9999 
 	@curl http://localhost:9999/health 
-help: ## Prints out the list of targets and their usage
-	@echo "Available targets:"
-	@echo "  all:         compile and run the application (default)"
-	@echo "  build:       compile the source code to a binary"
-	@echo "  run:         run the application"
-	@echo "  stop:        stop the running application"
-	@echo "  clean:       clean up the binary and log file"
-	@echo "  test:        test the application"
+.SILENT:
+help: ## Displays helpful information for Makefile commands
+	cat Makefile | grep '##' | tr -d '##'
