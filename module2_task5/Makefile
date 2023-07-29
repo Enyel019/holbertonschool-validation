@@ -10,12 +10,8 @@ check: ## Lints and checks for dead links on markdowns using markdownlint-cli an
 	@markdownlint ./content/posts/*.md
 	@markdown-link-check ./content/posts/*.md
 
-clean: ##  Delete the binary awesome-api and the log file awesome-api.log
-	make stop
-	rm -f awesome-api
-	rm -f coverage-units.out
-	rm -f coverage-integrations.out
-	rm -f awesome-api.log   
+clean:  stop ## Delete all the content inside dist directory
+	@rm -rf dist awesome-api awesome-api.log coverage-units.out coverage-integrations.out
 
 post: ## Create a new post using Hugo
 	@hugo new posts/$(POST_NAME).md
