@@ -1,5 +1,5 @@
-build: ## Build the website using Go-Hugo
-	@hugo
+build: check ##  Builds a website using gohugo on the dist folder ,if build fails ,check
+		hugo --destination ./dist
 
 clean: ## Clean up the generated files
 	@rm -rf dist/*
@@ -14,6 +14,10 @@ help: ## Show the list of targets and their usage
 check:  ## Lints and check for dead links on markdowns using markdownlint-cli and markdown-link-check
 	@markdownlint ./content/posts/*.md
 	@markdown-link-check ./content/posts/*.md
+
+build-and-check: ## Build the website and check for dead links and markdown issues
+	@make check
+	@make build
 
 validate: ## Validates dist/index.html using W3C Hbtn validator
 	@make build
