@@ -15,10 +15,6 @@ check:  ## Lints and check for dead links on markdowns using markdownlint-cli an
 	@markdownlint ./content/posts/*.md
 	@markdown-link-check ./content/posts/*.md
 
-build-and-check: ## Build the website and check for dead links and markdown issues
-	@make check
-	@make build
-
 validate: ## Validates dist/index.html using W3C Hbtn validator
 	@make build
 	@-git clone https://github.com/holbertonschool/W3C-Validator.git
