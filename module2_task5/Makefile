@@ -21,10 +21,10 @@ help: ## Show the list of targets with their usage
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
 run: build ## Build the website using Go-Hugo and Golang, then start the server
-	@nohup hugo server --bind 0.0.0.0 --baseUrl=http://localhost:9999 &
+	hugo server --bind 0.0.0.0 --baseUrl=http://localhost:9999
 
 stop: ## Stop the application with the command kill
-	@pkill -f "hugo server"
+	@-pkill -f "hugo server"
 
 test: lint validate unit-tests integration-tests ## Execute all testing targets
 
@@ -49,3 +49,7 @@ integration-tests: ## Execute integration tests for the Golang API
 	@# Run integration tests here (assuming you have integration test files)
 
 .PHONY: build check clean post help run stop test lint validate hugo-build go-build unit-tests integration-tests
+
+# New target for copying sayHello.html to layouts/shortcodes directory
+copy-sayHello:
+	@cp ./sayHello.html ./layouts/shortcodes/sayHello.html
