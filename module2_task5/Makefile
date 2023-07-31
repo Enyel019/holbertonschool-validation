@@ -26,7 +26,6 @@ run: build ## Build the website using Go-Hugo and Golang, then start the server
 stop: ## Stop the application with the command kill
 	@pkill -f "hugo server"
 
-test: lint validate unit-tests integration-tests ## Execute all testing targets
 
 lint: ## Execute all lint steps
 	@make check
@@ -42,8 +41,10 @@ hugo-build:
 go-build:
 	@go build -o awesome-api
 
+test: lint validate unit-tests integration-tests ## Execute all testing targets
+
 unit-tests: ## Execute unit tests for the Golang API
-	@go test -v ./...
+	@go test -v -short -coverprofile=coverage-units.out
 
 integration-tests: ## Execute integration tests for the Golang API
 	@# Run integration tests here (assuming you have integration test files)
