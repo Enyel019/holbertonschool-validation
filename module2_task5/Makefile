@@ -21,7 +21,7 @@ help: ## Show the list of targets with their usage
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
 run: build ## Build the website using Go-Hugo and Golang, then start the server
-	hugo server -D --bind 127.0.0.1 --baseURL=http://localhost:9999/posts/welcome/
+	hugo server --bind 127.0.0.1 --baseURL=http://localhost:9999/posts/welcome/
 	
 
 stop: ## Stop the application with the command kill
