@@ -7,28 +7,34 @@ PID_FILE := $(BINARY_NAME).pid
 
 # Targets
 build: check hugo-build go-build ## Build the website using Go-Hugo and Golang
-	@true
+	hugo --destination=./dist
+	@go build -o $(BINARY_NAME)
+
 
 check: ## Lints and checks for dead links on markdowns using markdownlint-cli and markdown-link-check
 	@markdownlint ./content/posts/*.md
 	@markdown-link-check ./content/posts/*.md
 
-clean:  stop ## Delete all the content inside dist directory
-	@rm -rf dist awesome-api awesome-api.log coverage-units.out coverage-integrations.out
+clean: stop ## Delete all the generated files and stop the server
+	@-rm -rf dist $(BINARY_NAME) $(LOG_FILE) $(PID_FILE) coverage-units.out coverage-integrations.out
+
 
 post: ## Create a new post using Hugo
 	@hugo new posts/$(POST_NAME).md
 	@sed -i 's/title: .*/title: $(POST_TITLE)/' content/posts/$(POST_NAME).md
 
 help: ## Show the list of targets with their usage
+	@echo "Usage: make [target]"
+	@echo "Targets:"
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+
 
 run: lint check ## Build the website using Go-Hugo and Golang, then start the server
 	./$(BINARY_NAME) > $(LOG_FILE) 2>&1 & echo $$! > $(PID_FILE)
-	hugo server
-	
+	hugo server --destination=./dist --bind 127.0.0.1 --baseURL=http://localhost:9999/posts/welcome/
 
 stop: ## Stop the application with the command kill
+	@-pkill -f "$(BINARY_NAME)"
 	@-pkill -f "hugo server"
 
 test: lint validate unit-tests integration-tests ## Execute all testing targets
