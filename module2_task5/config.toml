@@ -3,5 +3,3 @@ languageCode = 'en-us'
 title = 'Awesome Inc.'
 theme = "ananke"
 publishDir = 'dist'
-relativeURLs = true
-canonifyURLs = true
