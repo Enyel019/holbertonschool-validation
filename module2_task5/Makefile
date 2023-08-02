@@ -44,10 +44,10 @@ go-build:
 	@go build -o awesome-api
 
 unit-tests: ## Execute unit tests for the Golang API
-	@go test -v ./...
+	go test -v -short -coverprofile=coverage-units.out
 
 integration-tests: ## Execute integration tests for the Golang API
-	@# Run integration tests here (assuming you have integration test files)
+	go test -v -coverprofile=coverage-integrations.out
 
 .PHONY: build check clean post help run stop test lint validate hugo-build go-build unit-tests integration-tests
 
