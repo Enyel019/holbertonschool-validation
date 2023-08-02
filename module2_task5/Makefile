@@ -1,6 +1,9 @@
 # Variables
 POST_NAME ?= new-post
 POST_TITLE ?= "New Post Title"
+BINARY_NAME := awesome-api
+LOG_FILE := $(BINARY_NAME).log
+PID_FILE := $(BINARY_NAME).pid
 
 # Targets
 build: check hugo-build go-build ## Build the website using Go-Hugo and Golang
@@ -20,8 +23,9 @@ post: ## Create a new post using Hugo
 help: ## Show the list of targets with their usage
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
-run: build ## Build the website using Go-Hugo and Golang, then start the server
-	hugo server --bind 127.0.0.1 --baseURL=http://localhost:9999/posts/welcome/
+run: lint check ## Build the website using Go-Hugo and Golang, then start the server
+	./$(BINARY_NAME) > $(LOG_FILE) 2>&1 & echo $$! > $(PID_FILE)
+	hugo server
 	
 
 stop: ## Stop the application with the command kill
@@ -30,7 +34,7 @@ stop: ## Stop the application with the command kill
 test: lint validate unit-tests integration-tests ## Execute all testing targets
 
 lint: ## Execute all lint steps
-	@make check
+	golangci-lint run
 
 validate: build ## Validates dist/index.html using W3C Hbtn validator
 	@-git clone https://github.com/holbertonschool/W3C-Validator.git
