@@ -23,10 +23,8 @@ post: ## Create a new post using Hugo
 	@hugo new posts/$(POST_NAME).md
 	@sed -i 's/title: .*/title: $(POST_TITLE)/' content/posts/$(POST_NAME).md
 
-help: ## Show the list of targets with their usage
-	@echo "Usage: make [target]"
-	@echo "Targets:"
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+help: ## Prints out the list of targets and their usage
+	@awk 'BEGIN {FS = ":.*?# "} /^[a-zA-Z_-]+:.*?# / {printf "\033[36m%-10s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 
 run: lint check ## Build the website using Go-Hugo and Golang, then start the server
