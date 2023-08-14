@@ -10,35 +10,24 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-22.04
-
+    defaults:
+      run:
+        working-directory: ./module3_task2
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Validate Makefile
-        run: cd ./module3_task1/ && make help
-
-      - name: Hugo
-        run: |
-            cd module3_task1
-            ./setup.sh
-
+      - uses: actions/checkout@v3
       - name: build
         run: |
-            cd module3_task1
-            make build
-
-      - name: test
+          sudo ./setup.sh
+      - name: make-help
         run: |
-          cd module3_task1
-          make test
-
-      - name: run
+          make help
+      - name: make-build
         run: |
-          cd module3_task1
-          make run
-
-      - name: clean
+          make build
+      - name: make-post
         run: |
-          cd module3_task1
-          make clean  
+          make POST_NAME=who-are-we POST_TITLE="Who are we" post
+      - name: make-clean
+        run: |
+          make clean
+          ls
