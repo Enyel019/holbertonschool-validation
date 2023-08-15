@@ -14,6 +14,6 @@ This project includes a GitHub Actions workflow that automates the build process
 * Workflow: [.github/workflows/module3_task1.yml](.github/workflows/module3_task1.yml)
 
 * Triggered on:
-    - Code push
-    - Once a day
+  * Code push
+  * Once a day
 * Does stuff
