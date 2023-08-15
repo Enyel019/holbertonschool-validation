@@ -1,4 +1,4 @@
-name: module3_task1
+name: Module 3 Task 0
 
 on:
   push:
@@ -12,33 +12,14 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Validate Makefile
-        run: cd ./module3_task1/ && make help
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.x # Use the desired Go version
 
-      - name: Hugo
+      - name: Build and Test
         run: |
-            cd module3_task1
-            ./setup.sh
-
-      - name: build
-        run: |
-            cd module3_task1
-            make build
-
-      - name: test
-        run: |
-          cd module3_task1
-          make test
-
-      - name: run
-        run: |
-          cd module3_task1
-          make run
-
-      - name: clean
-        run: |
-          cd module3_task1
-          make clean  
+          make help
