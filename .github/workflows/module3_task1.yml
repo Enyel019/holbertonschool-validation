@@ -1,26 +1,20 @@
+---
 name: module3_task1
-
 on:
   push:
-    branches:
-      - main
   schedule:
-    - cron: '0 0 * * *' # Schedule to run daily at midnight UTC
-
+    - cron: 0 0 * * *
 jobs:
-  validate:
-    runs-on: ubuntu-22.04
+  build:
+    runs-on: ubuntu-20.04
     defaults:
       run:
         working-directory: ./module3_task1
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Hugo environment
+      - name: build
         run: |
-          sudo apt-get update
-          sudo apt-get install -y git make
-          chmod +x ./setup.sh
-          ./setup.sh
+          sudo ./setup.sh
       - name: make-help
         run: |
           make help
