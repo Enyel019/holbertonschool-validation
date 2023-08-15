@@ -7,7 +7,12 @@
 * Build site with `make build`
 * Access help with `make help`
 
-## Workflow
+## Build Workflow
+
+This project includes a GitHub Actions workflow that automates the build process of the Hugo website.
+
+* Workflow: [.github/workflows/module3_task1.yml](.github/workflows/module3_task1.yml)
+
 * Triggered on:
     - Code push
     - Once a day
