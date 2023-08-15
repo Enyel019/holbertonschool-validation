@@ -24,9 +24,6 @@ jobs:
           sudo apt-get install -y git make
           chmod +x ./setup.sh
           ./setup.sh 
-      - name: make-help
-        run: |
-          make help
       - name: make-build
         run: |
           make build
