@@ -18,7 +18,7 @@ jobs:
       - name: Validate Makefile
         run: cd ./module3_task1
 
-      - name: build
+      - name: Hugo
         run: |
           sudo ./setup.sh
       - name: make-help
