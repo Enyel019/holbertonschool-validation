@@ -1,6 +1,15 @@
 #!/bin/bash
 
-sudo apt-get update
-sudo apt-get install -y wget make
-wget https://github.com/gohugoio/hugo/releases/download/v0.85.0/hugo_0.85.0_Linux-64bit.deb
-sudo dpkg -i hugo_0.85.0_Linux-64bit.deb
+# Install git if it's not installed
+if ! command -v git &> /dev/null; then
+    sudo apt-get update
+    sudo apt-get install -y git
+fi
+
+# Install make if it's not installed
+if ! command -v make &> /dev/null; then
+    sudo apt-get update
+    sudo apt-get install -y make
+fi
+
+
