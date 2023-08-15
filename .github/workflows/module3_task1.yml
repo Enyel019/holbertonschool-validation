@@ -18,9 +18,12 @@ jobs:
       - name: Validate Makefile
         run: cd ./module3_task1/ && make help
 
-      - name: build
+      - name: Set up Hugo environment
         run: |
-          sudo ./setup.sh
+          sudo apt-get update
+          sudo apt-get install -y git make
+          chmod +x ./setup.sh
+          ./setup.sh 
       - name: make-help
         run: |
           make help
