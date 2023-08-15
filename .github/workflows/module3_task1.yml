@@ -1,25 +1,46 @@
-name: module3_task1
+name: module3_task0
 
 on:
   push:
     branches:
       - main
-  pull_request:
+  schedule:
+    - cron: '0 0 * * *' # Schedule to run daily at midnight UTC
 
 jobs:
-  build:
+  validate:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Hugo environment
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y git make
-          chmod +x ./setup.sh
-          ./setup.sh
+      - name: Validate Makefile
+        run: cd ./module3_task1/ && make help
 
-      - name: Build website
-        run: make build
+      - name: Hugo
+        run: |
+            cd module3_task1
+            ./setup.sh
+
+      - name: build
+        run: |
+            cd module3_task1
+            make build
+
+      - name: test
+        run: |
+          cd module3_task1
+          make test
+
+      - name: run
+        run: |
+          cd module3_task1
+          make run
+
+      - name: clean
+        run: |
+          cd module3_task1
+          make clean
+
+        
