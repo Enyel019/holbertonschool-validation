@@ -10,14 +10,13 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-22.04
+    default:
+    run:
+    working-directory: ./module3_task1
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Validate Makefile
-        run: cd ./module3_task1/ && make help
-
       - name: build
         run: |
           sudo ./setup.sh
