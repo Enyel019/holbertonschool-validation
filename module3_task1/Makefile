@@ -1,12 +1,25 @@
-help: ## Shows available targets and descriptions
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+# Makefile for Hugo Website Project
 
-build: ## Generates site
-	hugo
+# Variables
+HUGO_VERSION := 0.88.1
 
-clean: ## Cleans `dist` folder
-	rm -rf dist/*
+# Targets
+setup:
+    ./setup.sh
 
-post: ## Creates new post
-	hugo new posts/$(POST_NAME).md
-	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+build:
+    hugo
+
+clean:
+    make -C /home/el_caiamn/Desktop/Holberton/holbertonschool-validation/module3_task1
+
+test:
+    make -C /home/el_caiamn/Desktop/Holberton/holbertonschool-validation/module3_task1
+
+deploy:
+    make -C /home/el_caiamn/Desktop/Holberton/holbertonschool-validation/module3_task1
+
+version:
+    hugo version
+
+.PHONY: setup build clean test deploy version
