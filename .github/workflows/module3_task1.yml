@@ -4,34 +4,33 @@ on:
   push:
     branches:
       - main
-  pull_request:
+  schedule:
+    - cron: '0 0 * * *' # Schedule to run daily at midnight UTC
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  validate:
+    runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Set up Hugo
-        run: sudo ./setup.sh
+      - name: Validate Makefile
+        run: cd ./module3_task1/ && make help
 
-      - name: Build Hugo Site
-        run: hugo
-
-      - name: Make Clean
-        run: make clean
-
-      - name: Make Build
-        run: make build
-
-      - name: Make Test
-        run: make test
-
-      - name: Make Deploy
-        run: make deploy
-
-      - name: Display Hugo Version
-        run: hugo version
-
+      - name: build
+        run: |
+          sudo ./setup.sh
+      - name: make-help
+        run: |
+          make help
+      - name: make-build
+        run: |
+          make build
+      - name: make-post
+        run: |
+          make POST_NAME=who-are-we POST_TITLE="Who are we" post
+      - name: make-clean
+        run: |
+          make clean
+          ls
