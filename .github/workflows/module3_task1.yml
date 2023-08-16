@@ -12,18 +12,15 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Clonar repository
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Validate Makefile
         run: cd ./module3_task1/ && make help
 
-      - name: Set up Hugo environment
+      - name: build
         run: |
-          sudo apt-get update
-          sudo apt-get install -y git make
-          chmod +x ./setup.sh
-          ./setup.sh
+          sudo ./setup.sh
       - name: make-help
         run: |
           make help
