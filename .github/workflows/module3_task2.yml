@@ -1,0 +1,45 @@
+name: module3_task2
+on:
+  push:
+  schedule:
+    - cron: 0 0 * * *
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ./module3_task2
+    steps:
+      - uses: actions/checkout@v3
+      - name: build
+        run: |
+          pwd && ls
+          sudo ./setup.sh
+      - name: make-help
+        run: |
+          make help
+      - name: make-build
+        run: |
+          make build
+      - name: make-post
+        run: |
+          make POST_NAME=who-are-we POST_TITLE="Who are we" post
+      - name: make-clean
+        run: |
+          make clean
+      - name: make-lint
+        run: |
+          make lint
+      - name: make unit-tests
+        run: |
+          make unit-tests
+      - name: make integration-tests
+        run: |
+          make integration-tests
+      - name: make validate
+        run: |
+          make validate
+      - name: make package
+        run: |
+          make build
+          make package
