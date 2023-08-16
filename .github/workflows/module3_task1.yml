@@ -14,8 +14,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up Hugo
-        run: ./setup.sh
+      - name: Set up Hugo environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git make
+          chmod +x ./setup.sh
+          ./setup.sh
 
       - name: Build Hugo Site
         run: hugo
