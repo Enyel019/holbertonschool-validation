@@ -1,0 +1,9 @@
+name-template: 'v{{version}}'
+
+categories:
+  - title: '🚀 Features'
+    label: 'enhancement'
+  - title: '🐛 Bug Fixes'
+    label: 'bug'
+  - title: '🧰 Maintenance'
+    label: 'maintenance'
