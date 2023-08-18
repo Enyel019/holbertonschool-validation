@@ -6,6 +6,7 @@ build: ## Generates site
 
 clean: ## Cleans `dist` folder and zip app
 	rm -rf dist/*
+	rmdir dist/
 	rm -f awesome-website.zip
 
 post: ## Creates new post
