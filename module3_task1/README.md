@@ -7,8 +7,3 @@
 * Build site with `make build`
 * Access help with `make help`
 
-## Workflow
-* Triggered on:
-    - Code push
-    - Once a day
-* Does stuff
