@@ -3,11 +3,11 @@ name: release-drafter
 on:
   push:
     branches:
-      - main # Cambia a la rama predeterminada de tu repositorio
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-22.04 # Asegúrate de usar la versión correcta de Ubuntu
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout code
@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14' # Puedes ajustar la versión de Node.js
+          node-version: '14'
 
       - name: Install dependencies
         run: npm install
@@ -24,4 +24,11 @@ jobs:
       - name: Update Release Draft
         uses: release-drafter/release-drafter@v5
         with:
-          config-file: .github/release-drafter.yml # Ruta al archivo de configuración
+          config-file: .github/release-drafter.yml
+
+...
+
+template: |
+  ## Changes
+
+  $CHANGES
