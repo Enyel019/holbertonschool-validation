@@ -1,22 +1,27 @@
 name: Release Drafter
-
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    types: [opened, reopened, synchronize]
-permissions:
-  contents: read
-jobs:
-  update_release_draft:
-    permissions:
-      contents: write
+    types:
+      - closed
 
-      pull-requests: write
-    runs-on: ubuntu-20.04
+jobs:
+  release:
+    runs-on: ubuntu-22.04
     steps:
-      - uses: release-drafter/release-drafter@v5
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate changelog and create draft release
+        run: |
+          npx release-drafter
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
