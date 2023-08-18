@@ -1,22 +1,21 @@
-# Go-Hugo app
-
-## Prerequisites
+# Prerequisites
 
 * Go-Hugo, GNUMake installed
 
 ## Lifecycle
 
-* Clean build directory with:
-     `make clean`
+* Clean build directory with
+* `make clean`
 
-* Create one or more posts with:
-    `make POST_NAME=your_post_name POST_TITLE=your_post_title post`
+* Create one or more posts with
+* `make POST_NAME=your_post_name POST_TITLE=your_post_title post`
 
-* Build site with:
-    `make build`
+* Build site with
+* `make build`
 
-* Access help with:
-    `make help`
+* Access help with
+* `make help`
+
 * Build package with:
     `make package`
 
