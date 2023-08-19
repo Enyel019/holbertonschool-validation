@@ -1,5 +1,5 @@
 ---
-name: module3_task4
+name: module3_task
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     defaults:
       run:
-        working-directory: ./module3_task4
+        working-directory: ./module3_task
     steps:
       - uses: actions/checkout@v2
       - name: build
