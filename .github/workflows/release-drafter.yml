@@ -20,7 +20,7 @@ jobs:
         run: npm install
 
       - name: Install release-drafter
-        run: npm install release-drafter@9.8.1 -g
+        run: npm install release-drafter@5 -g
 
       - name: Generate changelog and create draft release
         run: |
