@@ -4,7 +4,7 @@ name: module3_task4
 on:
   push:
     branches:
-      - main 
+      - main
     tags:
       - v1.0.1
 jobs:
@@ -55,4 +55,3 @@ jobs:
             ./awesome-website.zip
             ./DEPLOY.md
           body_path: ./DEPLOY.md
-
