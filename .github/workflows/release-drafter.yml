@@ -1,21 +1,30 @@
 name: Release Drafter
 on:
-  push:
-    branches:
-      - main
-      - release/*
-      - feature/*
-      - hotfix/*
-      - fix/*
+  pull_request:
+    types:
+      - closed
 
 jobs:
-  my_job:
-    runs-on: ubuntu-latest
+  release:
+    runs-on: ubuntu-22.04
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      # Other steps...
-      
-      - name: Run module3_task4
-        uses: ./.github/workflows/module3_task4.yml  # Directly reference the file
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install release-drafter
+        run: npm install release-drafter@9.8.1 -g
+
+      - name: Generate changelog and create draft release
+        run: |
+          npx release-drafter
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
