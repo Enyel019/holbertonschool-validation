@@ -1,3 +1,0 @@
-[build]
-  command = "hugo"  # Comando de construcción de Hugo
-  publish = "public/"  # Ruta donde se encuentran los archivos generados por Hugo
