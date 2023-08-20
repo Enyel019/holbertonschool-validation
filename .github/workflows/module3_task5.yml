@@ -59,7 +59,7 @@ jobs:
             ./DEPLOY.md
           body_path: ./DEPLOY.md
 
-       - name: Set up Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16'
