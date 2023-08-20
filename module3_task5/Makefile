@@ -64,3 +64,8 @@ integration-tests: ## Execute integration tests for the Golang API
 # New target for copying sayHello.html to layouts/shortcodes directory
 copy-sayHello:
 	@cp ./sayHello.html ./layouts/shortcodes/sayHello.html
+deploy-preview:
+	netlify deploy --dir=./dist/ --message="Preview deploy for PR #$(PR_NUMBER)"
+
+deploy-production:
+	netlify deploy --prod --dir=./dist/

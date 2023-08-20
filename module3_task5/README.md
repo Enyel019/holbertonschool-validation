@@ -19,7 +19,11 @@
     `make help`
 * Build package with:
     `make package`
+deploy-preview:
+ netlify deploy --dir=./dist/ --message="Preview deploy for PR #$(PR_NUMBER)"
 
+deploy-production:
+ netlify deploy --prod --dir=./dist/
 ## Workflow
 
 * Triggered on: Code push and once a day
