@@ -1,105 +1,86 @@
----
 name: module3_task5
 on:
   push:
-    branches:
-      - main
     tags:
-      - '*'
-  schedule:
-    - cron: '0 0 * * *'
-  pull_request:
+      - 1.0.*
     branches:
       - main
+  pull_request:
+    types: [opened, reopened]
+  schedule:
+    - cron: "0 0 * * *"
+
+permissions:
+  contents: write
 
 jobs:
-  build:
-    runs-on: ubuntu-22.04
+  Build:
+    runs-on: ubuntu-20.04
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Validate Makefile
-        run: |
-            cd module3_task5
-            make help
-
-      - name: Setup Hugo
-        run: |
-            cd module3_task5
-            ./setup.sh
-
-      - name: build
-        run: |
-            cd module3_task5
-            make build
-
-      - name: test
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+      - name: Setup
         run: |
           cd module3_task5
-          make unit-tests
-          make integration-tests
-          make validate
-
-      - name: run
-        run: |
-          cd module3_task5
-          make run
-
-      - name: package
-        run: |
-          cd module3_task5
-          make package
-
-      - name: Read release notes
-        id: DEPLOY
-        run: |
-          echo "::set-output name=body::$(cat module3_task5/DEPLOY.md)"
-
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          tag_name: 1.0.1
-          files: module3_task5/awesome-website.zip
-          body: ${{ steps.DEPLOY.outputs.body }}
-          token: ${{ secrets.RELEASETOKEN }}
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      - name: lint
+          ./setup.sh
+      - name: Lint
         run: |
           cd module3_task5
           make lint
-
-      - name: Deploy Preview to Netlify
-        if: github.event_name == 'pull_request'
-        uses: nwtgck/actions-netlify@v2.0
+      - name: Build
+        run: |
+          cd module3_task5
+          make build
+      - name: Unit Tests
+        run: |
+          cd module3_task5
+          make unit-tests
+      - name: Integration Tests
+        run: |
+          cd module3_task5
+          make integration-tests
+      - name: Validate
+        run: |
+          cd module3_task5
+          make validate
+      - name: Package
+        run: |
+          cd module3_task5
+          make package
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: awesomeWebsiteZip
+          path: module3_task5/awesome-website.zip
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v2
         with:
           publish-dir: './module3_task5/dist'
+          production-branch: main
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "#${{ github.event.pull_request.number }}"
+          deploy-message: "Deploy from GitHub Actions"
           enable-pull-request-comment: true
+          enable-commit-comment: true
           overwrites-pull-request-comment: true
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
-      - name: Deploy production
-        if: github.ref == 'refs/heads/main'
-        uses: nwtgck/actions-netlify@v2.0
+        timeout-minutes: 1
+  Release:
+    needs: Build
+    runs-on: ubuntu-20.04
+    if: startsWith(github.ref, 'refs/tags/1.0.')
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+      - name: Download artifacts from Build
+        uses: actions/download-artifact@v3
         with:
-          publish-dir: './module3_task5/dist'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy production from GitHub Actions"
-          production-branch: main
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
-      - name: clean
-        run: |
-          cd module3_task5
+          name: awesomeWebsiteZip
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: awesome-website.zip
+          body_path: module3_task5/DEPLOY.md
+      - name: release drafter
+        uses: release-drafter/release-drafter@v5
