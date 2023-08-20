@@ -1,0 +1,2 @@
+[build]
+  publish = "./dist"  # Ruta donde se encuentra el sitio web estático generado
