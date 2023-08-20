@@ -59,41 +59,17 @@ jobs:
             ./DEPLOY.md
           body_path: ./DEPLOY.md
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      - name: lint
-        run: |
-          cd module3_task5
-          make lint
-
-      - name: Deploy Preview to Netlify
-        if: github.event_name == 'pull_request'
+      - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v2.0
         with:
-          publish-dir: './module3_task5/dist'
+          publish-dir: './dist'
+          production-branch: main
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "#${{ github.event.pull_request.number }}"
-          enable-pull-request-comment: true
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
           overwrites-pull-request-comment: true
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
-      - name: Deploy production
-        if: github.ref == 'refs/heads/master'
-        uses: nwtgck/actions-netlify@v2.0
-        with:
-          publish-dir: './module3_task5/dist'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy production from GitHub Actions"
-          production-branch: master
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
-      - name: clean
-        run: |
-          cd module3_task5
+        timeout-minutes: 1
