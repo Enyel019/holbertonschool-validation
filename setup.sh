@@ -1,6 +1,15 @@
 #!/bin/bash
+sudo apt update
+sudo apt upgrade
+sudo apt install -y wget make shellcheck zip
 
-sudo apt-get update
-sudo apt-get install -y wget make
-wget https://github.com/gohugoio/hugo/releases/download/v0.85.0/hugo_0.85.0_Linux-64bit.deb
-sudo dpkg -i hugo_0.85.0_Linux-64bit.deb
+# Download Go
+wget https://go.dev/dl/go1.20.1.linux-amd64.tar.gz
+tar -C /usr/local -xzf go1.20.1.linux-amd64.tar.gz
+rm ./go1.20.1.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+
+# Download the Hugo executable
+wget https://github.com/gohugoio/hugo/releases/download/v0.110.0/hugo_0.110.0_Linux-64bit.tar.gz
+tar -C /usr/local/bin -xzf hugo_0.110.0_Linux-64bit.tar.gz
+rm ./hugo_0.110.0_Linux-64bit.tar.gz
