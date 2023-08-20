@@ -5,71 +5,101 @@ on:
     branches:
       - main
     tags:
-      - v1.0.1
+      - '*'
   schedule:
-    - cron: 0 0 * * *
+    - cron: '0 0 * * *'
   pull_request:
-    types: [opened, reopened, synchronize]
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-22.04
-    defaults:
-      run:
-        working-directory: ./module3_task5 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Validate Makefile
+        run: |
+            cd module3_task5
+            make help
+
+      - name: Setup Hugo
+        run: |
+            cd module3_task5
+            ./setup.sh
+
       - name: build
         run: |
-          pwd && ls
-          sudo ./setup.sh
-      - name: make-help
+            cd module3_task5
+            make build
+
+      - name: test
         run: |
-          make help
-      - name: make-build
-        run: |
-          make build
-      - name: make-post
-        run: |
-          make POST_NAME=who-are-we POST_TITLE="Who are we" post
-      - name: make-clean
-        run: |
-          make clean
-      - name: make-lint
-        run: |
-          make lint
-      - name: make unit-tests
-        run: |
+          cd module3_task5
           make unit-tests
-      - name: make integration-tests
-        run: |
           make integration-tests
-      - name: make validate
-        run: |
           make validate
-      - name: make package
+
+      - name: run
         run: |
-          make build
+          cd module3_task5
+          make run
+
+      - name: package
+        run: |
+          cd module3_task5
           make package
+
+      - name: Read release notes
+        id: DEPLOY
+        run: |
+          echo "::set-output name=body::$(cat module3_task5/DEPLOY.md)"
+
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: |
-            ./awesome-website.zip
-            ./DEPLOY.md
-          body_path: ./DEPLOY.md
+          tag_name: 1.0.1
+          files: module3_task5/awesome-website.zip
+          body: ${{ steps.DEPLOY.outputs.body }}
+          token: ${{ secrets.RELEASETOKEN }}
 
-      - name: Deploy to Netlify
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: lint
+        run: |
+          cd module3_task5
+          make lint
+
+      - name: Deploy Preview to Netlify
+        if: github.event_name == 'pull_request'
         uses: nwtgck/actions-netlify@v2.0
         with:
-          publish-dir: './dist'
-          production-branch: main
+          publish-dir: './module3_task5/dist'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy from GitHub Actions"
+          deploy-message: "#${{ github.event.pull_request.number }}"
           enable-pull-request-comment: true
-          enable-commit-comment: true
           overwrites-pull-request-comment: true
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        timeout-minutes: 1
+
+      - name: Deploy production
+        if: github.ref == 'refs/heads/main'
+        uses: nwtgck/actions-netlify@v2.0
+        with:
+          publish-dir: './module3_task5/dist'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy production from GitHub Actions"
+          production-branch: main
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: clean
+        run: |
+          cd module3_task5
