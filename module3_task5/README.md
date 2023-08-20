@@ -1,31 +1,21 @@
-# Go-Hugo app
-
 ## Prerequisites
 
-* Go-Hugo, GNUMake installed
+- Go 1.16 or later
+- Gorilla Mux library (install with `go get github.com/gorilla/mux`)
 
 ## Lifecycle
 
-* Clean build directory with:
-     `make clean`
+This project can be built, run, tested, and cleaned using the following commands:
 
-* Create one or more posts with:
-    `make POST_NAME=your_post_name POST_TITLE=your_post_title post`
+- `make build`: compile the source code of the application to a binary named `awesome-api`
+- `make run`: run the application in the background, and write logs into a file named `awesome-api.log`
+- `make stop`: stop the application
+- `make clean`: stop the application, delete the binary `awesome-api` and the log file `awesome-api.log`
+- `make test`: test the application by sending HTTP requests to `localhost:9999`
+- `make lint`: Lint the main
+- `make unit-tests`: Makes unit tests
+- `integration-tests`: Runs the Golang integration tests
+- `make check`: Lint style and verify links in posts/*.md
+- `make validate`: Validate W3C style using validator
 
-* Build site with:
-    `make build`
-
-* Access help with:
-    `make help`
-* Build package with:
-    `make package`
-deploy-preview:
- netlify deploy --dir=./dist/ --message="Preview deploy for PR #$(PR_NUMBER)"
-
-deploy-production:
- netlify deploy --prod --dir=./dist/
-## Workflow
-
-* Triggered on: Code push and once a day
-* Tests all make targets
-* Generates awesome-website.zip package
+To see the full list of available commands, you can run the `make help` command.
