@@ -1,66 +1,67 @@
+.PHONY: build clean post check stop unit-tests integration-tests test lint package
+
 # Variables
-POST_NAME ?= new-post
-POST_TITLE ?= "New Post Title"
 BINARY_NAME := awesome-api
 LOG_FILE := $(BINARY_NAME).log
 PID_FILE := $(BINARY_NAME).pid
 
-# Targets
-build: check hugo-build go-build ## Build the website using Go-Hugo and Golang
-	hugo --destination=./dist
-	@go build -o $(BINARY_NAME)
+check: ## “Check” should fail when one of the 2 following steps fails: Lint of the Markdown source files using the command line “markdownlint-cli”v0.26.0, Analysis of the links with the command line “markdown-link-check”v3.8.6
+	markdownlint content/posts/*.md
+	markdown-link-check content/posts/*.md
 
+validate: ## Validate the file ./dist/index.html with W3C validator
+	-python3 opt/W3C-Validator/w3c_validator.py ./dist/index.html || true
 
-check: ## Lints and checks for dead links on markdowns using markdownlint-cli and markdown-link-check
-	@markdownlint ./content/posts/*.md
-	@markdown-link-check ./content/posts/*.md
-
-clean: stop ## Delete all the generated files and stop the server
-	@-rm -rf dist $(BINARY_NAME) $(LOG_FILE) $(PID_FILE) coverage-units.out coverage-integrations.out
-
-
-post: ## Create a new post using Hugo
-	@hugo new posts/$(POST_NAME).md
-	@sed -i 's/title: .*/title: $(POST_TITLE)/' content/posts/$(POST_NAME).md
-
-help: ## Show the list of targets with their usage
-	@echo "Usage: make [target]"
-	@echo "Targets:"
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
-
-
-run: lint check ## Build the website using Go-Hugo and Golang, then start the server
-	./$(BINARY_NAME) > $(LOG_FILE) 2>&1 & echo $$! > $(PID_FILE)
-	hugo server --destination=./dist --bind 127.0.0.1 --baseURL=http://localhost:9999/posts/welcome/
-
-stop: ## Stop the application with the command kill
-	@-pkill -f "$(BINARY_NAME)"
-	@-pkill -f "hugo server"
-
-test: lint validate unit-tests integration-tests ## Execute all testing targets
-
-lint: ## Execute all lint steps
+lint_golang: ## LINT LINT LINT YEAHHHH BABYYYY
 	golangci-lint run
 
-validate: build ## Validates dist/index.html using W3C Hbtn validator
-	@-git clone https://github.com/holbertonschool/W3C-Validator.git
-	@-./W3C-Validator/w3c_validator.py ./dist/index.html
-	@-rm -rf ./W3C-Validator
-
-hugo-build:
-	@hugo
+lint: ## LINT MD
+	npm install -g markdownlint-cli
+	-markdownlint *.md
 
 go-build:
-	@go build -o awesome-api
+	go get github.com/gorilla/mux
+	go build -o $(BINARY_NAME)
 
-unit-tests: ## Execute unit tests for the Golang API
+hugo-build:
+	hugo
+
+build: hugo-build go-build ## Generate the website from the markdown and configuration files in the directory dist/
+
+unit-tests: ## UNIT TEST UNIT TEST
 	go test -v -short -coverprofile=coverage-units.out
 
-integration-tests: ## Execute integration tests for the Golang API
+integration-tests: ## " - integration-tests: Runs the Golang integration tests"
 	go test -v -coverprofile=coverage-integrations.out
 
-.PHONY: build check clean post help run stop test lint validate hugo-build go-build unit-tests integration-tests
+test: unit-tests integration-tests validate ## WOOOHOOOOOOOO saljdfasldhfaksdf asdsafgasgasfasdf
 
-# New target for copying sayHello.html to layouts/shortcodes directory
-copy-sayHello:
-	@cp ./sayHello.html ./layouts/shortcodes/sayHello.html
+run: ## dslfjsaldjflkdsajfsajf;ljsadjf;lsajdfkldsaf sadfasdfasdfdsa
+	./$(BINARY_NAME) > $(LOG_FILE) 2>&1 & echo $$! > $(PID_FILE)
+
+stop: ## dsakjhfalsd hf;lsa fjdsahf;sahfhsadlkfhsadfsafd 
+	@if [ -f $(PID_FILE) ]; then kill `cat $(PID_FILE)` && rm $(PID_FILE); fi
+
+clean: ## Cleanup the content of the directory dist/
+	-rm -rf dist/
+	-make stop
+	-rm -f ./awesome-api ./awesome-api.log coverage*
+	-rm -f ./awesome-website.zip
+
+post: ## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME
+	@if [ -z "$(POST_NAME)" ]; then \
+		echo "Error: POST_NAME environment variable is not set."; \
+		exit 1; \
+	fi
+	@if [ -z "$(POST_TITLE)" ]; then \
+		echo "Error: POST_TITLE environment variable is not set."; \
+		exit 1; \
+	fi
+	hugo new posts/$(POST_NAME).md
+	echo "---\ntitle: \"$(POST_TITLE)\"\ndate: `date -Iseconds`\ndraft: true\n---\n" > content/posts/$(POST_NAME).md
+
+help: ## Prints out the list of targets and their usage
+	@awk 'BEGIN {FS = ":.*?# "} /^[a-zA-Z_-]+:.*?# / {printf "\033[36m%-10s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+
+package:
+	zip awesome-website.zip awesome-api dist/
