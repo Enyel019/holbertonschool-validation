@@ -1,3 +1,5 @@
 [build]
   base = "/"
   publish = "public/"
+  command = "hugo"  # Comando para generar el sitio con Hugo
+  publish = "public/"  # Ruta donde se encuentran los archivos generados por Hugo
