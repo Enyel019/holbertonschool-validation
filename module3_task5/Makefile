@@ -14,8 +14,6 @@ build: check hugo-build go-build ## Build the website using Go-Hugo and Golang
 check: ## Lints and checks for dead links on markdowns using markdownlint-cli and markdown-link-check
 	@markdownlint ./content/posts/*.md
 	@markdown-link-check ./content/posts/*.md
-	@markdown-link-check ./*.md
-
 
 clean: stop ## Delete all the generated files and stop the server
 	@-rm -rf dist $(BINARY_NAME) $(LOG_FILE) $(PID_FILE) coverage-units.out coverage-integrations.out
@@ -66,8 +64,3 @@ integration-tests: ## Execute integration tests for the Golang API
 # New target for copying sayHello.html to layouts/shortcodes directory
 copy-sayHello:
 	@cp ./sayHello.html ./layouts/shortcodes/sayHello.html
-deploy-preview:
-	netlify deploy --dir=./dist/ --message="Preview deploy for PR #$(PR_NUMBER)"
-
-deploy-production:
-	netlify deploy --prod --dir=./dist/
