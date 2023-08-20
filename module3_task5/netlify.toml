@@ -1,5 +1,6 @@
 [build]
   base = "/"
   publish = "public/"
-  command = "hugo"  # Comando para generar el sitio con Hugo
-  publish = "public/"  # Ruta donde se encuentran los archivos generados por Hugo
+  command = "npm run build"  # Suponiendo que utilizas npm para construir
+  publish = "out/"  # Ruta donde se encuentran los archivos generados por Next.js
+ 
