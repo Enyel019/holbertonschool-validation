@@ -4,7 +4,9 @@ name: module3_task3
 on:
   push:
     tags:
-      - v1.0.1
+      - v1.0.0
+  schedule:
+    - cron: 0 0 * * *
 jobs:
   build:
     runs-on: ubuntu-22.04
