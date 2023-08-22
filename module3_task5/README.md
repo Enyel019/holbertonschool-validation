@@ -18,3 +18,9 @@
 - check
 - validate
 - post
+
+## Workflow
+
+- Triggered on: Code push and once a day
+- Tests all make targets
+- Generates awesome-website.zip package
