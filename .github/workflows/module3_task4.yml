@@ -1,5 +1,5 @@
 ---
-name: module4_task0
+name: module3_task4
 on:
   push:
     branches:
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-22.04
     defaults:
       run:
-        working-directory: ./module4_task0
+        working-directory: ./module3_task4
     steps:
       - uses: actions/checkout@v2
       - name: build
