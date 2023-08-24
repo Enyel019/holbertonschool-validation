@@ -1,9 +1,7 @@
+---
 schemaVersion: 2.0.0
-containers:
-  - name: my-container
-    image: awesome:build
-    tests:
-      - metadata:
-          key: User
-          value: "root"
-      # ... otras pruebas ...
+commandTests:
+  - name: "hugo installed"
+    command: "which"
+    args: ["hugo"]
+    expectedOutput: ["/usr/local/bin/hugo"]
