@@ -1,15 +1,12 @@
-FROM golang:1.15.8-buster
+FROM ubuntu:20.04
 WORKDIR /app
-COPY . .
+COPY ./awesome-api .
 
-RUN /app/setup.sh
+RUN apt-get update \
+	&& apt-get upgrade -y \
+	&& rm -rf /var/lib/apt/lists/*
 
-# Update PATH to include GO's bin
-ENV PATH=$PATH:/usr/local/go/bin
+EXPOSE 9999
 
-CMD make lint; \
-	make build; \
-	make unit-tests; \
-	make integration-tests; \
-	make validate; \
-	make package
+
+CMD [ "./awesome-api" ]

@@ -1,5 +1,14 @@
+# Lint Dockerfile using Hadolint
+docker-lint:
+	hadolint ./.build/Dockerfile
+
+# Run tests on Docker Image using Container Structure Test
+docker-tests:
+	container-structure-test test --image awesome:build --config ./.build/cst.yml
+
 build-docker: ## Build docker image
 	docker build -f ./build/Dockerfile -t awesome:build .
+
 lint: ## Lint
 	shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"
 
@@ -7,7 +16,7 @@ build: ## Build with Hugo
 	hugo
 	go build
 
-test: unit-tests integration-tests ## Test
+test: unit-tests integration-tests docker-tests ## Test
 
 unit-tests:	## Unit Tests
 	go test -v -short -coverprofile=coverage-units.out
@@ -35,3 +44,4 @@ package: build ## Package
 
 help: ## Displays help for this makefile
 	@grep -E '^[a-zA-Z0-9 -]+:.*#'  Makefile | sort | while read -r l; do printf "\033[1;32m$$(echo $$l | cut -f 1 -d':')\033[00m:$$(echo $$l | cut -f 2- -d'#')\n"; done
+

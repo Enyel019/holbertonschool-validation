@@ -1,3 +1,6 @@
+<h1>Module 1: Introduction to DevOps: Automate Everything to Focus on What Really Matters</h1>
+<h2>Brandon Brown</h2>
+
 # HolbertonSchool-Validation
 
 ## Prerequisites
@@ -18,9 +21,3 @@
 - check
 - validate
 - post
-
-## Workflow
-
-- Triggered on: Code push and once a day
-- Tests all make targets
-- Generates awesome-website.zip package
