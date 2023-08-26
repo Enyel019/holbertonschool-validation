@@ -11,8 +11,9 @@ build-docker: ## Build docker image
 
 lint: ## Lint
 	shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"
+
 .PHONY: build
-build:cleam ## Build with Hugo
+build: clean ## Build with Hugo
 	docker run --cidfile="cidFile" awesome:build /bin/bash -c "hugo; go build"
 	docker cp `cat cidFile`:/app/dist ./dist
 	docker cp `cat cidFile`:/app/awesome-api ./awesome-api
@@ -51,10 +52,9 @@ post: ## Create a new post
 	echo '---' >> ./content/posts/$(POST_NAME).md
 
 package: build ## Package
-	docker build -f ./Dockerfile -t awesome:$(CURRENT_GIT_REF) .
-	docker save awesome:$(CURRENT_GIT_REF) -o awesome.tar
+	docker build -f ./Dockerfile -t awesome:latest .
+	docker save awesome:latest -o awesome.tar
 	zip awesome.tar.zip awesome.tar 
 
 help: ## Displays help for this makefile
 	@grep -E '^[a-zA-Z0-9 -]+:.*#'  Makefile | sort | while read -r l; do printf "\033[1;32m$$(echo $$l | cut -f 1 -d':')\033[00m:$$(echo $$l | cut -f 2- -d'#')\n"; done
-
