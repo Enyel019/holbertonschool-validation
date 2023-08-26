@@ -7,32 +7,43 @@ docker-tests:
 	container-structure-test test --image awesome:build --config ./.build/cst.yml
 
 build-docker: ## Build docker image
-	docker build -t awesome:build ./build
+	docker build -f ./build/Dockerfile -t awesome:build .
 
 lint: ## Lint
 	shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"
-
-build: ## Build with Hugo
-	hugo
-	go build
+.PHONY: build
+build:cleam ## Build with Hugo
+	docker run --cidfile="cidFile" awesome:build /bin/bash -c "hugo; go build"
+	docker cp `cat cidFile`:/app/dist ./dist
+	docker cp `cat cidFile`:/app/awesome-api ./awesome-api
+	rm -f ./cidFile	
 
 test: unit-tests integration-tests docker-tests ## Test
 
 unit-tests:	## Unit Tests
-	go test -v -short -coverprofile=coverage-units.ouit
+	docker run --cidfile="cidFile" awesome:build go test -v -short -coverprofile=coverage-units.out
+	docker cp `cat cidFile`:/app/coverage-units.out ./coverage-units.out
+	rm -f ./cidFile
 
 integration-tests: ## Integration Tests
-	go test -v -short -coverprofile=coverage-integrations.out
+	docker run --cidfile="cidFile" awesome:build go test -v -coverprofile=coverage-integrations.out
+	docker cp `cat cidFile`:/app/coverage-integrations.out ./coverage-integrations.out
+	rm -f ./cidFile
 
 validate: ## Validate
 	echo "PASS"
 
 clean: ## Delete the dist/ directory
+	rm -f ./cidFile
 	rm -rf dist
 	rm -f ./awesome-api
 	rm -f ./awesome.log
 	rm -f ./coverage-units.out
 	rm -f ./coverage-integrations.out
+	rm -f ./awesome-website.zip
+	rm -f ./awesome.tar
+	rm -f ./awesome.tar.zip
+	rm -f ./awesome-api.log
 
 post: ## Create a new post
 	echo '---' >> ./content/posts/$(POST_NAME).md
@@ -40,7 +51,9 @@ post: ## Create a new post
 	echo '---' >> ./content/posts/$(POST_NAME).md
 
 package: build ## Package
-	zip -r awesome-website.zip dist awesome-api 
+	docker build -f ./Dockerfile -t awesome:$(CURRENT_GIT_REF) .
+	docker save awesome:$(CURRENT_GIT_REF) -o awesome.tar
+	zip awesome.tar.zip awesome.tar 
 
 help: ## Displays help for this makefile
 	@grep -E '^[a-zA-Z0-9 -]+:.*#'  Makefile | sort | while read -r l; do printf "\033[1;32m$$(echo $$l | cut -f 1 -d':')\033[00m:$$(echo $$l | cut -f 2- -d'#')\n"; done
