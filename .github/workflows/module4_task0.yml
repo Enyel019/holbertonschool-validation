@@ -18,10 +18,6 @@ jobs:
   Build:
     runs-on: ubuntu-22.04
     steps:
-      - name: Clean Dist Directory
-        run: rm -rf dist
-      - name: Build with Hugo
-        run: docker run ...
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: Setup
