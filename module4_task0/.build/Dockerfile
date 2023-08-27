@@ -12,4 +12,4 @@ CMD make lint; \
 	make unit-tests; \
 	make integration-tests; \
 	make validate; \
-	make package
+	make package; \
