@@ -2,8 +2,8 @@ lint: ## Lint
 	shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"
 
 build: ## Build with Hugo
-	hugo
-	go build
+	docker run --rm -v $(PWD):/app -w /app golang:1.15.8-buster go build -o app main.go
+
 
 test: unit-tests integration-tests ## Test
 
