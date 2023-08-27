@@ -1,13 +1,13 @@
 # Lint Dockerfile using Hadolint
 docker-lint:
-	hadolint ./.build/Dockerfile
+	hadolint .build/Dockerfile
 
 # Run tests on Docker Image using Container Structure Test
 docker-tests:
-	container-structure-test test --image awesome:build --config ./.build/cst.yml
+	container-structure-test test --image awesome:build --config .build/cst.yml
 
 build-docker: ## Build docker image
-	docker build -f ./build/Dockerfile -t awesome:build .
+	docker build -f .build/Dockerfile -t awesome:build .
 
 lint: ## Lint
 	shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"
